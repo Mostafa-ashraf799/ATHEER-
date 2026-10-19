@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ATHEER — تطبيق الشات الخاص</title>
+<meta name="description" content="ATHEER: شات خاص P2P مشفّر، مكالمات صوت وفيديو، ستوريز وقنوات. حمّل التطبيق الآن.">
+<link rel="icon" type="image/webp" href="data:image/webp;base64,UklGRiIEAABXRUJQVlA4IBYEAAAQFQCdASpAAEAAPm0skUYkIiGhLhSeMIANiWwAtGgv/0+2fi7+N3ylUh+o/gPi5jf9fH6/7qu0Z4oHS+8w/Qz9AD+uf7nrFPQA8s72Ov3M9IC73EuMtPSoM8egOyewTp/7tDPl2NP0qvD1IX/KV/GRwibzdTnxGaM/+hdvCZUJgrsAdhN2DLb2P4qcAQ+uAA4qp/wuOjf3c7UnityoEpBbdEQSW07xDljpcXKGXQS0pAAA/v5fhluW+p/7B9Ih1kCl6K+P44B/gqw0b6/RfNijhwuTR5fwaDCN2hVVt8sLWHnWNt6W3/4xrt+Z6fnGr752BM+zIEzk4m+F/Yqo0h962XOdc/6atOaUwMSWrptuqbh11oRrOg1cMZiZeySI1wRg68qjubIbGbn3U4WozgSvzjvRMx43Yute2p/EdRUjfi2AJFw3chyao/jpdp2GCBD9NAHXg4+FxRx2iDND4nTJMkN/8I9bgOr+Qydp5Ib/7T5xJcQz2/RDvE63NTDv9clfLCk7L7K67wUS9kfRAuM7vZG9dLE83PBiGE/vRQSJc8/lVvWWeT7X0CijjXFhZAIrNNctr+M7qHUbmKW7DxfdhBjrEIrorNZYpHwilBmmtWRhiLSSRF8tMQYNh63r4H//FZQo6SrYDF4UJFN2T+QEqgdsZ5XJjlyKKssQa+QQq8PAPdPDsXPhTuSIt9nwX9bfqUaq7c+5Xw9Im8wSoJ+qKYlfiaakO382MaE9POYXvvEL6R4Ksw86T+89RoRnDQ2KuAAGje/MHqKxekBY1cIKAGtQH8ezw528ucuMRkSvFrldZE0FBe4EYPQcOzAm/G1cswJ8cpsAc5fv9GswdhysQ5mRAlv6PqRR/2s/q8pUuHgXbHHaPkAMAM5PgfsEmSkgd9EkZ3YicQG2Em5RTMjOplfjB3dEkUAlvcpyuOdgkXGP01vMXf4grt+lu3ftFKRUPxRHazxSBcE92inv36HMud1h6KRLucj3M/JlV5fQ3XqP4VUsxAqmZFMvikItqyxXLt714kbQTtjCHXdk8IjAE2fpiC8ejaikm01/HZjhFweUysN9IJ3B6ljwUW9WptCQ7tjBmRWjzJbGz+6lDUuvGtN+XdfzEab9wSPSVw9JZXRQzioPSfniNFZzRlau8Yt8pYjZsbvcvas2ncQVRJOd1caIm8rgn53OaBpwy7JvPXf38571TwQxVFhyU1aMn5PKy0ZcyNl2Ca1ML6BDK/xdBr6H2ulFy+LYnKhuuHnf6Cu+cWaxCrIGPBMRg7xy68h6Pn0jF3NHSCNJw0j1vmJHCaUvdKVhPLrq/5RwYcqYd+WDwJaXUgkLwyRIndPlRiCuO6SOta+W8rggSqDqDoELbu1PuTgeXK4i0O6zmKKhIFzwxEAAAA==">
+<style>
+:root{
+  /* clay / dark fallbacks (values come from Theme.kt; JS re-applies them per style + mode) */
+  --bg:#1D1E2D;--sf:#25273A;--fl:#25273A;--hi:#2E3047;--tx:#ECEBFA;--dm:#9A9DBD;--ln:#34364F;--ac:#8B7CFF;--oc:#fff;
+  --bi:#2A2C42;--bo:#7C6CF0;--obo:#fff;--r:26px;--br:22px;--bw:0px;--brs:28px;
+  --sh:0 8px 18px rgba(0,0,0,.55),0 2px 4px rgba(0,0,0,.4);--hl:rgba(255,255,255,.07);--hl2:rgba(255,255,255,.12);--tb:transparent;
+  --bgimg:radial-gradient(90vw 90vw at 50% 0,rgba(139,124,255,.10),transparent),radial-gradient(90vw 90vw at 100% 80%,rgba(139,124,255,.05),transparent);
+  box-sizing:border-box;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:system-ui,-apple-system,'Segoe UI','Noto Sans Arabic',Roboto,Tahoma,sans-serif;background:var(--bgimg),var(--bg);color:var(--tx);overflow:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);transition:background-color .3s,color .3s}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+/* icons: exact SVGs from design/icons (24px grid, 2px round stroke) */
+.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* the app's "glass" surface (Glass.kt → Modifier.glass) */
+.glass{background:linear-gradient(180deg,var(--hl),transparent 55%),var(--fl);border:var(--bw) solid var(--ln);box-shadow:var(--sh),inset 0 1px 0 var(--hl2);color:var(--tx)}
+.tint{--fl:var(--ac);border-color:var(--tb);color:var(--oc)}
+.press{transition:transform .15s}
+.press:active{transform:scale(.92)}
+
+/* GlassTopBar */
+.top{position:fixed;z-index:6;inset-inline:0;top:env(safe-area-inset-top,0px);padding:6px 12px;display:flex;justify-content:center;pointer-events:none}
+.top .bar{pointer-events:auto;width:100%;max-width:1040px;height:56px;border-radius:var(--brs);display:flex;align-items:center;gap:8px;padding:0 6px}
+.top .logo{width:38px;height:38px;border-radius:50%;object-fit:cover;margin-inline-start:2px}
+.top .ttl{flex:1;font-size:18px;font-weight:600;letter-spacing:.14em;color:var(--ac)}
+.cbtn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:22px}
+.cbtn .i{width:50%;height:50%}
+
+/* FloatingNavBar */
+.nav{position:fixed;z-index:6;inset-inline:0;bottom:env(safe-area-inset-bottom,0px);padding:10px 18px;display:flex;justify-content:center;pointer-events:none}
+.nav .cap{pointer-events:auto;width:100%;max-width:560px;border-radius:var(--brs);display:flex;justify-content:flex-start;padding:6px;overflow-x:auto;scrollbar-width:none}
+.nav .cap::-webkit-scrollbar{display:none}
+.nav button{flex:1 0 54px;display:flex;flex-direction:column;align-items:center;gap:0;padding:2px 0;border-radius:24px;font-size:10px;color:var(--dm);min-width:0}
+.nav button span{white-space:nowrap}
+.nav .ib{width:40px;height:40px;display:grid;place-items:center;border-radius:var(--ibr,50%);font-size:22px}
+.nav button.on{color:var(--tx);font-weight:600}
+.nav button.on .ib{background:linear-gradient(180deg,var(--hl),transparent 55%),var(--ac);color:var(--oc);box-shadow:var(--sh),inset 0 1px 0 var(--hl2);border:var(--bw) solid var(--tb)}
+
+/* slides */
+.deck{height:100%;position:relative}
+.slide{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:88px 18px 104px;display:flex;flex-direction:column;align-items:center;
+  opacity:0;visibility:hidden;transform:translateX(24px);transition:opacity .4s,transform .4s,visibility .4s}
+.slide.on{opacity:1;visibility:visible;transform:none}
+.wrap{width:100%;max-width:1040px;margin:auto 0}
+.head{text-align:center;margin-bottom:22px}
+.head h2{font-size:clamp(24px,5vw,36px);font-weight:700}
+.head p{color:var(--dm);margin:8px auto 0;max-width:560px;line-height:1.8;font-size:clamp(14px,2.4vw,17px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:16px}
+.card{border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;text-align:start}
+.card .ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:23px}
+.card b{font-size:16px;font-weight:600}
+.card span.d{color:var(--dm);font-size:14px;line-height:1.75}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;font-size:13px}
+.chip .i{font-size:16px;color:var(--ac)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:center}
+.hero .txt{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.logo-c{width:150px;height:150px;border-radius:50%;display:grid;place-items:center}
+.logo-c img{width:104px;height:104px;border-radius:var(--r);display:block}
+.word{font-size:clamp(44px,9vw,76px);font-weight:900;letter-spacing:.14em;line-height:1;color:var(--ac)}
+.tag{color:var(--dm);font-size:clamp(15px,2.5vw,19px);line-height:1.9;max-width:520px}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:999px;font-weight:700;font-size:16px}
+.pill .i{font-size:20px}
+.stats{display:flex;flex-wrap:wrap;gap:12px}
+.stat{padding:10px 18px;border-radius:calc(var(--r)*.7);text-align:center}
+.stat b{display:block;font-size:19px;color:var(--ac)}
+.stat span{font-size:12px;color:var(--dm)}
+.team{text-align:center;margin-top:26px}
+.team small{display:block;font-size:13px;color:var(--dm)}
+.team b{font-size:19px;font-weight:900;letter-spacing:2px;color:var(--ac)}
+
+/* phone mock (chat screen built from the same glass parts) */
+.phone{width:min(300px,100%);margin:0 auto;border-radius:38px;padding:10px;position:relative}
+.scr{border-radius:30px;background:var(--bg);overflow:hidden;position:relative;height:470px;display:flex;flex-direction:column;border:var(--bw) solid var(--ln)}
+.scr .wall{position:absolute;inset:0;opacity:1;color:var(--dm)}
+.scr .wall>svg{width:100%;height:100%;display:block}
+.mtop{margin:8px;height:50px;border-radius:calc(var(--brs)*.9);display:flex;align-items:center;gap:8px;padding:0 6px;position:relative;z-index:1}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:15px;background:var(--ac);color:var(--oc)}
+.mtop .n{flex:1;line-height:1.25;font-size:14px;font-weight:600}
+.mtop .n small{display:block;font-size:11px;color:var(--ac);font-weight:400}
+.mtop .i{font-size:19px;margin-inline:7px;color:var(--tx)}
+.msgs{flex:1;display:flex;flex-direction:column;gap:8px;padding:10px 12px;position:relative;z-index:1;justify-content:flex-end}
+.b{max-width:80%;padding:8px 13px;border-radius:var(--br);font-size:13px;line-height:1.6;position:relative}
+.b.in{background:var(--bi);align-self:flex-end;border-end-end-radius:6px;border:var(--bw) solid var(--ln)}
+.b.out{background:var(--bo);color:var(--obo);align-self:flex-start;border-end-start-radius:6px;border:var(--bw) solid var(--ln)}
+.b .m{display:flex;gap:4px;align-items:center;justify-content:flex-end;font-size:10px;opacity:.8;margin-top:2px}
+.b .m .i{font-size:14px}
+.react{position:absolute;bottom:-11px;inset-inline-end:10px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--sf);border:var(--bw) solid var(--ln);box-shadow:0 2px 5px rgba(0,0,0,.25);color:#f0556a;font-size:13px}
+.voice{display:flex;align-items:center;gap:8px;min-width:170px}
+.voice .i{font-size:26px;color:var(--ac)}
+.wv{display:flex;align-items:center;gap:2px;height:22px;flex:1}
+.wv i{width:3px;border-radius:2px;background:var(--dm);opacity:.8}
+.voice small{font-size:10px;color:var(--dm)}
+.mbar{margin:8px;display:flex;align-items:center;gap:8px;position:relative;z-index:1}
+.inp{flex:1;height:46px;border-radius:999px;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:13px;color:var(--dm)}
+.inp .i{font-size:20px}
+.inp em{flex:1;font-style:normal}
+
+/* styles gallery */
+.sws{display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:14px}
+.sw{padding:12px;text-align:start;display:flex;flex-direction:column;gap:8px;position:relative;transition:transform .15s}
+.sw:hover{transform:translateY(-3px)}
+.sw.on::after{content:"";position:absolute;inset:-5px;border-radius:inherit;border:2px solid var(--ac);pointer-events:none}
+.sw b{font-size:14px;font-weight:700}
+.sw .mb{height:18px;width:70%}
+.sw .mb.o{align-self:flex-start}
+.sw .mb.i2{align-self:flex-end;width:55%}
+.sw .dot{position:absolute;top:12px;inset-inline-end:12px;width:14px;height:14px;border-radius:50%}
+.acc{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.acc button{width:34px;height:34px;border-radius:50%;position:relative;box-shadow:var(--sh)}
+.acc button.on::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--tx)}
+.hint{text-align:center;color:var(--dm);font-size:13px;margin-top:14px}
+
+/* download */
+.dl{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;width:100%;margin-top:6px}
+.steps .card{align-items:flex-start}
+.num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:16px}
+.note{color:var(--dm);font-size:13px}
+
+@media (min-width:900px){.sws{grid-template-columns:repeat(7,1fr)}}
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;gap:26px}
+  .hero .txt{align-items:center;text-align:center}
+  .tag{margin-inline:auto}
+  .stats{justify-content:center}
+}
+@media (max-width:420px){.nav button{font-size:9.5px}.slide{padding-inline:14px}}
+@media (prefers-reduced-motion:reduce){.slide,.press,.sw{transition:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-Chat" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol><symbol id="i-Reply" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/> <path d="M20 20v-7a4 4 0 0 0-4-4H4"/></symbol><symbol id="i-Lock" viewBox="0 0 24 24"><path d="M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/> <path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-LockOpen" viewBox="0 0 24 24"><path d="M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z"/> <path d="M7 11V7a5 5 0 0 1 9.9-1"/></symbol><symbol id="i-Call" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol><symbol id="i-Videocam" viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/> <path d="M3 5h11a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/></symbol><symbol id="i-Brush" viewBox="0 0 24 24"><path d="M9.06 11.9l8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/> <path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></symbol><symbol id="i-Bolt" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></symbol><symbol id="i-Cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol><symbol id="i-Mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/> <path d="M19 10v2a7 7 0 0 1-14 0v-2"/> <path d="M12 19v4"/> <path d="M8 23h8"/></symbol><symbol id="i-Send" viewBox="0 0 24 24"><path d="M22 2L11 13"/> <path d="M22 2l-7 20-4-9-9-4 20-7z"/></symbol><symbol id="i-DoneAll" viewBox="0 0 24 24"><path d="M2 13l4 4L16 7"/> <path d="M11 15l2 2L22 8"/></symbol><symbol id="i-Group" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/> <path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/> <path d="M23 21v-2a4 4 0 0 0-3-3.87"/> <path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-Poll" viewBox="0 0 24 24"><path d="M18 20V10"/> <path d="M12 20V4"/> <path d="M6 20v-6"/></symbol><symbol id="i-Star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol><symbol id="i-PushPin" viewBox="0 0 24 24"><path d="M12 17v5"/> <path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol><symbol id="i-Smile" viewBox="0 0 24 24"><path d="M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0"/> <path d="M8 14s1.5 2 4 2 4-2 4-2"/> <path d="M9 9h.01"/> <path d="M15 9h.01"/></symbol><symbol id="i-Heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol><symbol id="i-Edit" viewBox="0 0 24 24"><path d="M12 20h9"/> <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></symbol><symbol id="i-Search" viewBox="0 0 24 24"><path d="M3 11a8 8 0 1 0 16 0a8 8 0 1 0 -16 0"/> <path d="M21 21l-4.35-4.35"/></symbol><symbol id="i-Notifications" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/> <path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol><symbol id="i-Public" viewBox="0 0 24 24"><path d="M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0"/> <path d="M2 12h20"/> <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol><symbol id="i-Campaign" viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h3l7 4V6L7 10H4a1 1 0 0 0-1 1z"/> <path d="M17 8a5 5 0 0 1 0 8"/> <path d="M20.5 5.5a8.5 8.5 0 0 1 0 13"/></symbol><symbol id="i-PhotoLibrary" viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/> <path d="M7.0 8.5a1.5 1.5 0 1 0 3.0 0a1.5 1.5 0 1 0 -3.0 0"/> <path d="M21 15l-5-5L5 21"/></symbol><symbol id="i-Crop" viewBox="0 0 24 24"><path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/> <path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/></symbol><symbol id="i-AutoAwesome" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/> <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol><symbol id="i-Moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol><symbol id="i-Sun" viewBox="0 0 24 24"><path d="M7 12a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"/> <path d="M12 1v2"/> <path d="M12 21v2"/> <path d="M4.22 4.22l1.42 1.42"/> <path d="M18.36 18.36l1.42 1.42"/> <path d="M1 12h2"/> <path d="M21 12h2"/> <path d="M4.22 19.78l1.42-1.42"/> <path d="M18.36 5.64l1.42-1.42"/></symbol><symbol id="i-Storage" viewBox="0 0 24 24"><path d="M21 5c0 1.66-4.03 3-9 3S3 6.66 3 5s4.03-3 9-3 9 1.34 9 3z"/> <path d="M21 12c0 1.66-4.03 3-9 3s-9-1.34-9-3"/> <path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/></symbol><symbol id="i-Person" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/> <path d="M8 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/></symbol><symbol id="i-Info" viewBox="0 0 24 24"><path d="M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0"/> <path d="M12 16v-4"/> <path d="M12 8h.01"/></symbol><symbol id="i-PlayCircle" viewBox="0 0 24 24"><path d="M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0"/> <path d="M10 8l6 4-6 4z"/></symbol><symbol id="i-Tune" viewBox="0 0 24 24"><path d="M4 21v-7"/> <path d="M4 10V3"/> <path d="M12 21v-9"/> <path d="M12 8V3"/> <path d="M20 21v-5"/> <path d="M20 12V3"/> <path d="M1 14h6"/> <path d="M9 8h6"/> <path d="M17 16h6"/></symbol><symbol id="i-AttachFile" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></symbol><symbol id="i-Archive" viewBox="0 0 24 24"><path d="M21 8v13H3V8"/> <path d="M1 3h22v5H1z"/> <path d="M10 12h4"/></symbol><symbol id="i-Block" viewBox="0 0 24 24"><path d="M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0"/> <path d="M4.93 4.93l14.14 14.14"/></symbol><symbol id="i-Gift" viewBox="0 0 24 24"><path d="M20 12v10H4V12"/> <path d="M2 7h20v5H2z"/> <path d="M12 22V7"/> <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/> <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></symbol><symbol id="i-TextFields" viewBox="0 0 24 24"><path d="M4 7V4h16v3"/> <path d="M9 20h6"/> <path d="M12 4v16"/></symbol><symbol id="i-AutoFixHigh" viewBox="0 0 24 24"><path d="M15 4V2"/> <path d="M15 16v-2"/> <path d="M8 9h2"/> <path d="M20 9h2"/> <path d="M17.8 11.8L19 13"/> <path d="M17.8 6.2L19 5"/> <path d="M3 21l9-9"/> <path d="M12.2 6.2L11 5"/></symbol><symbol id="i-Coffee" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/> <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/> <path d="M6 1v3"/> <path d="M10 1v3"/> <path d="M14 1v3"/></symbol><symbol id="i-Music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/> <path d="M3 18a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/> <path d="M15 16a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/></symbol><symbol id="i-Download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></symbol></svg>
+
+<header class="top">
+  <div class="bar glass">
+    <img class="logo" alt="" src="data:image/webp;base64,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">
+    <div class="ttl">ATHEER</div>
+    <button class="cbtn glass press" id="theme" aria-label="تبديل الوضع الفاتح/الداكن"><svg class="i" id="themeIc"><use href="#i-Sun"/></svg></button>
+    <a class="cbtn glass tint press" href="ATHEER.apk" download="ATHEER.apk" aria-label="تنزيل التطبيق"><svg class="i"><use href="#i-Download"/></svg></a>
+  </div>
+</header>
+
+<main class="deck" id="deck">
+
+  <!-- 1 · الرئيسية -->
+  <section class="slide on"><div class="wrap">
+    <div class="hero">
+      <div class="txt">
+        <div class="logo-c glass"><img alt="ATHEER" src="data:image/webp;base64,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"></div>
+        <div class="word">ATHEER</div>
+        <p class="tag">شات خاص بالكامل: رسائل مشفّرة تنتقل مباشرة بين الأجهزة، مكالمات صوت وفيديو، ستوريز وقنوات، بتصميم ناعم تغيّره على مزاجك.</p>
+        <a class="pill glass tint press" href="ATHEER.apk" download="ATHEER.apk"><svg class="i"><use href="#i-Download"/></svg>تنزيل ATHEER.apk</a>
+        <div class="stats">
+          <div class="stat glass"><b>P2P</b><span>اتصال مباشر</span></div>
+          <div class="stat glass"><b>AES-GCM</b><span>تشفير الرسائل</span></div>
+          <div class="stat glass"><b>7</b><span>أنماط تصميم</span></div>
+          <div class="stat glass"><b>10</b><span>لغات تلقائي</span></div>
+        </div>
+      </div>
+      <div class="phone glass" aria-hidden="true">
+        <div class="scr">
+          <div class="wall" id="wall"></div>
+          <div class="mtop glass">
+            <svg class="i"><use href="#i-Reply" transform="scale(-1,1) translate(-24,0)"/></svg>
+            <div class="av">م</div>
+            <div class="n">مريم<small>متصل الآن</small></div>
+          </div>
+          <div class="msgs">
+            <div class="b in">صباح الخير! جاهزة لمكالمة الفيديو؟<div class="m">9:40</div></div>
+            <div class="b out">جاهز، هتصل بيكي دلوقتي<div class="m">9:41 <svg class="i"><use href="#i-DoneAll"/></svg></div><span class="react"><svg class="i" style="fill:currentColor"><use href="#i-Heart"/></svg></span></div>
+            <div class="b in"><div class="voice"><svg class="i"><use href="#i-PlayCircle"/></svg><div class="wv" id="wv"></div><small>0:12</small></div></div>
+          </div>
+          <div class="mbar">
+            <div class="inp glass"><svg class="i"><use href="#i-Smile"/></svg><em>اكتب رسالة</em><svg class="i"><use href="#i-AttachFile"/></svg></div>
+            <div class="cbtn glass tint"><svg class="i"><use href="#i-Mic"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="team"><small>from</small><b>BINARY Beast</b></div>
+  </div></section>
+
+  <!-- 2 · الشات -->
+  <section class="slide"><div class="wrap">
+    <div class="head"><h2>محادثات بلا تعقيد</h2><p>كل ما تحتاجه في الشات اليومي، في تطبيق واحد سريع.</p></div>
+    <div class="grid">
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Reply"/></svg></div><b>تفاعل ورد وتعديل</b><span class="d">تفاعلات سريعة، رد باقتباس أو بالسحب، وتعديل وحذف عندك أو عند الطرفين.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Mic"/></svg></div><b>رسائل صوتية</b><span class="d">تسجيل بضغطة واحدة، وتشغيل بسرعة 1× أو 1.5× أو 2×.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Group"/></svg></div><b>مجموعات واستطلاعات</b><span class="d">مجموعات بإدارة أدمن، استطلاعات حتى 20 اختيار، ومسح تلقائي للرسائل.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Star"/></svg></div><b>رسائل محفوظة ومميّزة</b><span class="d">محادثة مع نفسك، نجمة للرسائل المهمة، تثبيت، أرشفة وتحويل لأي محادثة.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Search"/></svg></div><b>بحث وجدولة</b><span class="d">بحث داخل المحادثة أو في كل الرسائل، وجدولة الإرسال وإرسال صامت.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-PhotoLibrary"/></svg></div><b>ميديا لمرة واحدة</b><span class="d">صور وفيديو تُفتح مرة واحدة أو لمدة محددة، مع منع لقطات الشاشة أثناء العرض.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Public"/></svg></div><b>ترجمة الرسائل</b><span class="d">اضغط ضغطة طويلة على أي رسالة واختر «ترجمة»: تتم على جهازك بدون إرسال نصك لأي خدمة.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Bolt"/></svg></div><b>ردود سريعة ومسودات</b><span class="d">جمل جاهزة بضغطة، وما تكتبه ولم تُرسله يُحفظ لكل محادثة وتجده كما تركته.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Info"/></svg></div><b>معلومات الرسالة</b><span class="d">وقت الإرسال والحالة والتعديل والتثبيت، مع «تحديد كغير مقروءة» للمحادثة وزر نزول سريع لآخر رسالة.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Archive"/></svg></div><b>تصدير وساعات هدوء</b><span class="d">صدّر أي محادثة كنص، وحدد ساعات هدوء بلا إشعارات رسائل، وشاشة لكل الرسائل المميّزة بنجمة.</span></div>
+    </div>
+  </div></section>
+
+  <!-- 3 · الخصوصية -->
+  <section class="slide"><div class="wrap">
+    <div class="head"><h2>خصوصيتك أولًا</h2><p>التطبيق مبني بحيث لا يحتفظ أحد بتاريخ محادثاتك سواك.</p></div>
+    <div class="grid">
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Lock"/></svg></div><b>تشفير ECDH + AES-GCM</b><span class="d">كل رسالة تُشفّر قبل مغادرة جهازك، ومفتاحك الخاص يُحفظ مشفّرًا على الجهاز.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Storage"/></svg></div><b>تخزين محلي</b><span class="d">الرسائل محفوظة على جهازك فقط، ولا يوجد سيرفر يحتفظ بالتاريخ.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Person"/></svg></div><b>رقمك مخفي</b><span class="d">رقم الهاتف غير ظاهر للمستخدمين، والبحث به يحترم إعداد «ممكن حد يلاقيني».</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-LockOpen"/></svg></div><b>قفل بـ PIN</b><span class="d">قفل تلقائي بمهلة تختارها، مع قفل تدريجي بعد المحاولات الخاطئة.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-DoneAll"/></svg></div><b>التحقق من الأمان</b><span class="d">رقم أمان مشترك تقارنه مع الطرف الآخر للتأكد من سلامة التشفير.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Tune"/></svg></div><b>تحكم كامل</b><span class="d">إخفاء «بيكتب…» وإيصالات القراءة ومحتوى الإشعارات وآخر رسالة في القائمة.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Block"/></svg></div><b>حذف بلا أثر</b><span class="d">الحذف للجميع يمسح الرسالة نهائيًا عند الطرفين بلا «تم حذف رسالة»، بحركة ترتفع ثم تصغر حتى تختفي.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Lock"/></svg></div><b>لقطات الشاشة ممنوعة</b><span class="d">الميديا لمرة واحدة والمساحة الخاصة محميّة من اللقطات وتسجيل الشاشة.</span></div>
+    </div>
+  </div></section>
+
+  <!-- 3b · المساحة الخاصة والحسابات -->
+  <section class="slide"><div class="wrap">
+    <div class="head"><h2>مساحتك الخاصة وحساباتك</h2><p>جزء مخفي من التطبيق لا يعرف به أحد، وأكثر من حساب على نفس الجهاز.</p></div>
+    <div class="grid">
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Lock"/></svg></div><b>مساحة خاصة برقم سري</b><span class="d">تحدد رقمًا سريًا من الإعدادات وتكتبه في البحث فتفتح المساحة. لا تظهر في الشات ولا في البحث العادي.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Notifications"/></svg></div><b>«وصلك رسالة مهمة»</b><span class="d">أي رسالة تصل للمساحة تظهر كإشعار عام بلا اسم ولا نص، والمساحة تُقفل بمجرد خروجك من التطبيق.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Group"/></svg></div><b>أضف أي حد أو مجموعة أو قناة</b><span class="d">انقل أشخاصًا ومجموعات وقنوات من عندك للمساحة بزر واحد، وارجع بهم وقتما تشاء.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Person"/></svg></div><b>أكثر من حساب</b><span class="d">أضف حسابًا ثانيًا وبدّل بينهم: لكل حساب رسائله ومفاتيحه وستيكراته ومساحته.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Public"/></svg></div><b>لينكات دعوة</b><span class="d">لينك لحسابك أو لقناة أو لمجموعة (ينضم من يفتحه تلقائيًا)، ويمكنك تجديد لينك المجموعة.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Reply"/></svg></div><b>اختيار من محادثاتك</b><span class="d">عند إنشاء مجموعة أو إضافة أعضاء أو دعوة لقناة، اختر من الناس اللي بتكلمهم.</span></div>
+    </div>
+  </div></section>
+
+  <!-- 4 · التواصل -->
+  <section class="slide"><div class="wrap">
+    <div class="head"><h2>مكالمات وستوريز وقنوات</h2><p>تواصل بالصوت والصورة، وشارك لحظاتك، وتابع ما يهمك.</p></div>
+    <div class="grid">
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Videocam"/></svg></div><b>مكالمات صوت وفيديو</b><span class="d">اتصال مباشر P2P، وإشعار بشاشة كاملة حتى والتطبيق مغلق، ووضع منخفض الجودة لتوفير الداتا.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-PlayCircle"/></svg></div><b>ستوريز</b><span class="d">انشر صورة أو فيديو بمدة تختارها من ساعة حتى 7 أيام، وشاهد من تابع قصتك.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Campaign"/></svg></div><b>قنوات</b><span class="d">أنشئ قناة برابط @ وانشر نصوصًا وصورًا وفيديو، ويشترك فيها من يريد.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Notifications"/></svg></div><b>وصول الرسائل والمكالمات</b><span class="d">خدمة خلفية تبقي التطبيق متصلًا فتصلك الرسائل والمكالمات حتى بدون خدمات جوجل.</span></div>
+    </div>
+  </div></section>
+
+  <!-- 5 · الأدوات -->
+  <section class="slide"><div class="wrap">
+    <div class="head"><h2>أدوات إبداعية مدمجة</h2><p>حرّر وزيّن وتصفّح من غير ما تخرج من التطبيق.</p></div>
+    <div class="grid">
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Crop"/></svg></div><b>محرر صور وفيديو</b><span class="d">قص وتدوير وقلب، فلاتر، سطوع وتباين، رسم ونصوص وإيموجي، وقص وضغط للفيديو.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Smile"/></svg></div><b>ستيكرات وGIF</b><span class="d">اعمل ستيكرك بالقص والتحريك والنص، واستخدم لوحة ستيكرات وGIF وإيموجي.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Public"/></svg></div><b>متصفح مدمج</b><span class="d">افتح الروابط داخل التطبيق مع رجوع وأمام ووضع سطح المكتب ومشاركة ونسخ.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-AutoAwesome"/></svg></div><b>خلفيات شات</b><span class="d">خلفية أيقونات متكررة أو أورورا أو نقط أو سادة، من إعدادات الشات.</span></div>
+    </div>
+    <div class="chips">
+      <span class="chip glass"><svg class="i"><use href="#i-Storage"/></svg>كاش ميديا قابل للتحكم</span>
+      <span class="chip glass"><svg class="i"><use href="#i-Cloud"/></svg>وضع توفير البيانات</span>
+      <span class="chip glass"><svg class="i"><use href="#i-Archive"/></svg>تصدير المحادثة</span>
+    </div>
+  </div></section>
+
+  <!-- 5b · لغات وأصوات وحركة -->
+  <section class="slide"><div class="wrap">
+    <div class="head"><h2>لغات وأصوات وحركة</h2><p>تطبيق يتكلم لغتك، وله صوته الخاص، ويتحرك بنعومة.</p></div>
+    <div class="grid">
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Public"/></svg></div><b>10 لغات تلقائيًا</b><span class="d">تتبع لغة جهازك مع اتجاه الكتابة المناسب، وترجمة الرسائل تتم على الجهاز.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Music"/></svg></div><b>صوت التطبيق الرسمي</b><span class="d">5 أصوات: رنين Aurora، إشعار Nimbus، رد Echo، إرسال Swift، ومنشن Vivid، مضغوطة بحجم صغير.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-AutoAwesome"/></svg></div><b>حركة في كل مكان</b><span class="d">انتقالات بين الشاشات والتابات، وضغطة زر نابضة، وحذف بحركة ناعمة.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Call"/></svg></div><b>مكالمة بلا مقاطعة</b><span class="d">نافذة صغيرة فوق لعبتك أو تطبيقك مع رد ورفض ورنين متكرر، وبانر لو كنت داخل التطبيق.</span></div>
+    </div>
+    <div class="chips">
+      <span class="chip glass"><svg class="i"><use href="#i-Music"/></svg>Aurora Ring</span>
+      <span class="chip glass"><svg class="i"><use href="#i-Notifications"/></svg>Nimbus Notify</span>
+      <span class="chip glass"><svg class="i"><use href="#i-Reply"/></svg>Echo Reply</span>
+      <span class="chip glass"><svg class="i"><use href="#i-Send"/></svg>Swift Send</span>
+      <span class="chip glass"><svg class="i"><use href="#i-Bolt"/></svg>Vivid Mention</span>
+    </div>
+  </div></section>
+
+'  <!-- 5c · البوتات -->
+  <section class="slide"><div class="wrap">
+    <div class="head"><h2>بوتات زي تيليجرام</h2><p>نفس أسلوب BotFather وواجهة Bot API، تشتغل بمكتبات تيليجرام الجاهزة.</p></div>
+    <div class="grid">
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Reply"/></svg></div><b>BotMaker = BotFather</b><span class="d">بوت إدارة بنفس الأوامر: /newbot /mybots /token /revoke /deletebot /setname /setdescription /setabouttext /setuserpic /setcommands.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Lock"/></svg></div><b>إعدادات البوت</b><span class="d">/setinline و/setinlinegeo و/setinlinefeedback (تُحفظ فقط)، و/setjoingroups و/setprivacy تعمل فعليًا مع المجموعات.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Public"/></svg></div><b>تطبيقات وألعاب</b><span class="d">/newapp /listapps /editapp /deleteapp و/newgame /listgames /editgame /deletegame: تُرسل بزر web_app أو sendGame وتُفتح داخل التطبيق.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Group"/></svg></div><b>بوتات في المجموعات</b><span class="d">أضف أي بوت للمجموعة بيوزرنيمه؛ يرى الأوامر والإشارات والردود عليه فقط (وضع الخصوصية)، ورسائلك العادية تبقى مشفّرة.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Search"/></svg></div><b>بوتات مخفية</b><span class="d">لا توجد قائمة بوتات: لا يظهر بوت إلا بالبحث بيوزرنيمه بالضبط، وبوت Qwen 🐝👑 كذلك.</span></div>
+      <div class="card glass"><div class="ic glass tint"><svg class="i"><use href="#i-Bolt"/></svg></div><b>مفتاح Qwen من التطبيق</b><span class="d">الأدمن يضع المفتاح بأمر /qwenkey داخل شات Qwen، فيُحفظ على السيرفر وتُمسح رسالته فورًا، دون ملفات أو أسرار في المشروع.</span></div>
+    </div>
+    <div class="chips">
+      <span class="chip glass"><svg class="i"><use href="#i-Reply"/></svg>python-telegram-bot</span>
+      <span class="chip glass"><svg class="i"><use href="#i-Reply"/></svg>Telegraf</span>
+      <span class="chip glass"><svg class="i"><use href="#i-Reply"/></svg>aiogram</span>
+    </div>
+  </div></section>
+
+  <!-- 6 · التصميم -->
+  <section class="slide"><div class="wrap">
+    <div class="head"><h2>7 أنماط تصميم</h2><p>نفس أنماط التطبيق بالظبط، فاتح وداكن. اضغط على نمط وجرّبه على العرض كله.</p></div>
+    <div class="sws" id="sws"></div>
+    <div class="acc" id="acc"></div>
+    <div class="hint">لون التطبيق الاختياري يغلب لون النمط، زي الإعدادات تمامًا.</div>
+  </div></section>
+
+  <!-- 7 · التنزيل -->
+  <section class="slide"><div class="wrap dl">
+    <div class="logo-c glass"><img alt="ATHEER" src="data:image/webp;base64,UklGRl4eAABXRUJQVlA4IFIeAACwkQCdASpAAUABPkkkj0UiojAjp5K5ogAJCU3Z0CE/U9oUVIQWF/gOyQ7b4L++fsh/b/2i+a6xv4H+4fnv8n+uwQJ6+/L35v+5fkR3Av1h7Af8P/kH/D/rv+T/Z3vO+YX9f/2K97X+vf5X2af339sfcA/pf9Y//ft9eo76AX7nert/uv24+D39sf23+Br9kP/t7AH/09QDqL+z3+w61PcQwlX4ujJWuf8Xv9IBP0X+0cT3iAcCZQA8SHPC9H+wh/Nv75/3P8BwzpSQES6ggIl1BARLqCAiXUEBEuoICJeEjs4XFLot++3hVqX4/Oqg9BEf8ZPG8pRFRZXWwmafWqbn7gFQOv+3Yeb4SG+yn6WS6r7HO4FzxQqXj4mfGz0jL5UuKPuIeyqvc1CHgDGz+K28edyWrEW/o8vWYDWnoSQRlqj9NAPkL1WCjK6WbQgvv2KalTwXCf2cUO03LIF+tXThHOG2WIXpXLBdUvBFyhJ2IWrbpCSB4CmvaRhqPz43xOWYVYYPZCFQWXEbUbVq/RijSzW3FfYPo0WnBGAQQJktBr8SQFVTvodbI91v/TrIMdjSU/U3UjLcPBK0BMgmwV6NxgbjMp2g419cZT+LOTqwbdwGr6EGp1xTjbCH4v7Qdb/bFx8N40FKtjowM0+rOD8UuA3Jk5urB1FdRhvYunllCU/gTkOtYiZIiUmTl3ijVXXBwRwQDTz/qvqMxXshsWaViJhQn5VJQ05eFEgIx4CjmztU4Ihq/RRa4kxuPtz5fNn9bngbMMKsEjIX7ZPX6VK//L/Svl0JCqcgAPgPRzkAxVA2tsTRASThW5MNF4XNfFNo+Uwt2zphlWoICQH/f/8L3TmbnVyawU+QGBM0C6bboOhFYTtYA4hrBqTducNrd+yA//Yg7/spiLK6V7fpMpxoENYKcmfnnGgK/aRIQayQ+OSh67DZUBakk8pwAVv0ViwWu5oAxZq6E6nfJBn/+XadJd4EF4wvvKFgK3YBCE/goOSy1LxT//9xgm+i+mDdZvfPc5uS17fNAz0KxETnAPa18qjHGJGu0V7b/+aZfGPDbLnoLz4PdHxf461c4KRzBuxtb62vN32rps5jevj7GGe4+qVMVtqADKKegf/go3AL26ukEQSWi3vmaf19dHrSlKtGTfPXQH/iGfftjs/M/bQuMHT0S9a8P5kiQpZEcXA3b30jBWub3+/b0xs7AOwW0dr/4cwQtikwE4tDwjnN+L0pxENivqLWcr1v4Ai3yZMwpws3Ir2O6lNDEz/Juo38ZeXdwF/NvL0a9YD8Kkm2Ivsedv/ZsGjUYLgtT5fR4HzFvC/EnEG9dYl6jhzuEFPivs92SneKQyRAxU3LR64qONgF3obGRSkMfRyexoqQHpbbmxXNycltFg4KqcMY1hpKTQP6kTxwGmqSoOb4/KBWAQt88uTl12wKUxP5Vu75b8BJqtF4w1NfO4nq9v+zi/+7DxCUC2qitlBs4/AHPeywWPDtq5HfmOn6pZGQGE7E2SHgPEEiiYr8FmD9MKYeIXPn10We0lqTLDwR58v7J+4kbBkxI2DJiRqgAP790+pGQl+bv7QAAAAAAAAAAAAHbEZTg6sGfwYFI2SuBDxx4sYFGWTJgb0dpeDjow0ftyqLKVOcGBORiqsyr9vpufTlf2myrdMNQ0GTsnkrRH32DN+zz92crkFD89ae9SvkFN/1qNxoCyzxI/SMVriozq1B3bHvxxhAiyH0INSIQvDzsGSTCyApqrp2LES7ke3cldHk3Lj0Dp2fZxhuTg/BLyOB20LgWC5cHjQZUrxABfbEWNw8Ow3hMO/NgKjNh6T8u1tlyUKumxIgcian0tQD6OfKaB7/cqsYkCcSBjwMACJGmXoRMFD+jn/w894cOD76bqh2lVzlsFpLrso2jGJxuuCwA3rAuXX537IpT+D5YHhoT7ymr+8FE8dNPeYDKqAVv4XslS9ExC/x4NBkRUJTFSyFVi2p3Wjo4qDfl/QBdkq5L5dASW1ch/aQv6+fI2TIajNGcPX5sqJ3AWcR4h0mpnU51h3kSAIBzjG1X4q4Ac9h6DMQlwSb5x0D9tRsRoyIKh5EWvuthqNJUvnG1KbwCYK5RRhepUHqv8nMTMTv8m7ng+kT5LsHvkS/HVvWCjF9E1mmLv5rAxNbqU9XQAAB+39m8Cj0/CfzVF/fgKPWjcL6/LLzYkgGvFloDKcCvbeyio70ZHqnh0P9fCRygaO+d8JEhGeUOHB04eKFDyoqnMr490qUDctIilJvHnyroU4Q9GGoM5WhnGs3JaV+8Cjb2SqE9dzInacfMjIuWLiyZOQSDp9fIMh69fayAgwqKj1SC2lAv8mQtp7Nic+LlaxgNRDviqSvPw7vJ3FqCBZnovLyDlqaQcVBi5thbNWd4oizYfw7tvLL3gKsR2qXzHnmEsvXPaTufNHXr7rNv0KztQX3VaoQUbJY2rmQv5HY8ipe9CTdN+L29iGnRslX7d7kZRzkNaSJngAlG6HRE27TuWvBEPGpWv/Fs6zPgb4pj04DCURcIh3no9sCq9oHXxJr86bOnzb//uTWeNxn8zUn7bHKlctvlADqVUX9b+q/WplZmfnjHZlwLaxu++/dCUtpobk6X7dvaaIPiM/D/DAWhHoOFb8zITvRwpDYp67bLqg0oLpC4WMsYbDwAFojE7bJ/LidJMe+qGkypNp2Yu4H0i41XNuAvcV03h8r23CYZDATRfpNbU3aEDmedy6dmPZ/O+3/d2MvAhZs8mIxY/jFtrLOmGKIXZJsQXYG7OGAy5W2Zipsm9CBNFsVeBjGUWwyP5piJAq2dvPO/u+YU8z3dlVbkfjfl6ePHsAG9m4bFLU6/zV1h10zo3PK4FwuwTUUfD4XZma6IHgwEWkG0E38T9fIxSzycT/wN9baq/g1DYPW/a0kzpvFTktevG2N0x9gCeOXUXymGLcoSJxC2KcoAOC4+FWvM737SpGe8pU7ZUidLtvpFm+hn6N1Ck5ddAM4f1lT2bkwdRfu1Em+Ak9XXgTt017jTjOhMyoi7mds8SG0ROPFpFc3OqLnTq3Xkk5KjiF04J13iBNJMjDlcg4JaasbHUV1Z6+kVY8EfXpz36cB4uLAuNdS9fdbcvGzQd70rRwzFTntttaSNKJui7nBEPMSlCi1+Uv0WdeP0ea86qm4655Iy/FX22RubFBaGK9KlT+SmNqV/QhOfM2DY8BYe+ZhaUPnjoc/3ht/2AaGef3inkVaYmC60b0IMAps3luyeGudAH5jksUTjljyaIBbUQfpD4Meso/lGagPjQmDQ917ycJbMAIy/pwCby+C2MBSlRizHcCKVN8sBwYm2ETJ69rOeKiIXq8NiWPZGWnn17JsQ7KtfrG+r1g2+sSo8VNHd6jbHt8bf7pCqXp0yGzjjbEH6Yo2VJYt/im3L/vk0RwK6wjqA5wor0XSS0iPQ8A3r7Ad5YyoizTXrJB69kglQJQkXuu0WKvYI7gE5PcTxp2zZXEKBBO3HDazIvW5GEQ1ei5yTqcbkRbe66HPrVs+yHPZcFWeLuh439qjL3XLH1i7C3XMnAtNC/Wcfji//Y7bQdweIU73zL5S/81Ypbp9ricTwHHERoVwkQetD92XUN5Hi7DS1vDiutngEcLpRp54zyNFgrw0qsEBFo8Hj/0PVcLvPkISSunvO14XK5yMlQq7KLjO08I2kw2RaiWmgTWtcBe/ueA7iNtoFm2jj74gc85m0tcl54GjVDmK6sMP6F+H8cW9fwxaAp5ZOAgdg9YbfcXiRE1dKuazcwONXueqWeCkargOxnsBbhB/AGrccRs+1IihFHrjg/+iWu/sUrdR3CtEjo7mHdOnTvwMczEg5KWKYKkIUErEiLUGBylrjCT/XfvJWW57T8ADRVJf3QEwf83UGM4UOP/+XeZceNuafm+OFEsdA5P2qOH+gPwpYYxeMSZ2v+s0ApIXp1FuF11eGZgfoR9W57CXH91VUr6ejTkClqFLYXEIq19BzBuuPgj5jUBHiMp/qm6H3j7XB7QKbe2RJKW5a6E5BtFW+UbOB1VLJhXfgQAlWJzbbOylWmhDvOKpbpy2oWho/fXJs0bA9EMbOfQFxnG8eJ1mISYvKI9e/rKeFiB4Pq+OnuwrGKJqL/7I4z1s8UxMus18zi6ego7Nug6K5eGiqlo3yHwtBTlYgMx/pRxy4HJm2MqejR2qwXETFBM58b7QF8xEmfOzswvGULTe5i3LgVenfFxFj3ccfn1hjkQfTtcekOm+982BpoJt7ivgDQ9rURD3TraXBAw5WL/N/O2tixtCAmC0v6didXLHup/pMTldZFsALqASsD+CsEQedmr+XRetZIDQcSZj8mYNkXIqnZ6LyKp5JIGIl0FMD+E89sN70qqH6B88KCT3QBTpG1KtW226rTGUPxvS8S8/G8aDwm5hD/6+rheMqVGx6MUZsExiaiUj0MCAuGvrShoDt146YRLjmSFMay176CHVXXcYx4yoqeGSxsGoEfFrzNoAR/8AxBia14S7OtUYdXa4EEZnCEe5cJsIDXexD4uytC7Z257VlNesCtIQ/D9tnCo34KdoL2/R9G2Cwx3+oP5G/8+6qReYlzO/Ccpo/lCmgT78m+SrQn3TogQS4w5XJnpBPjDpP4Wo/S7Uhd2IgMElhfp+E3VjOpevNHFszStdoEPwvx1P/j1onr65vushgOXEaY5eM4zu6sjfNpfqqPxgZJwRdSQJPkfPqsk6HMes5M+eI9749j/5SopF8TW9ZKt4LnciG/RBFzkMtnAld2uCVxp2qXN2iIEP1JamHVRxSMMnl7V3IYa/ETmEIH+U9wOZ2oZOLCb/m+PRXUcrkpGXKJijddiVC7/UL06ywKG2O4AHbRQPsWdpVbIjiDdPafgyhWcBnTfe/eeIVhihRo9HcIOoKF8vvnm8wXuX8N29+jI3tO94KpApb2zGSsszkoiaVeYWzVWs5U9Dm4+xuWEedYQJU63NDYlvfouUi4hSKgDP97e9FmSXtG+obP3Fhmi509WemdTBqfH0PxSr0N3xUjckzqBJh3sDVpYX/Aj7XiU3nSioS6hO4KYafX1b0eWQyB66xbXgadUEvEtz7RjbbaJQy9z7XLV0Gibc0tSGoG4IL0/0PgNEo+2Ulu9ajofcELKxDsfnWkKJvZPj7JisVwViOQw6834KAu5vlWn+JQCityWroIi9j7P8QlucDSDWbHV7ie5aX2qlL9wU+6eMN2y4MJh1VzfSmeSPXFeJtqI4eCCU552UPQg5sAX4B6qxMq2R0VWaho+ZRbE2Ls1tPHyh8BEudPrLt4rU1emSEeFF5oElSo2+RzY0h6VuvtA/JOSpwTc8nNmB7QAV7lo/hk6GwHcMnTE8/7EcjD+dMxHYKn2hSh9NxcruNzi+eunnScbnWWujwQbCEvVKR8jRoVkVFG9JZfsfmI7FDCkR3deOSNdjcTea8Hw7O0ju7HDfCHXzA6MU67M4/psvbENA0xN3Ldpu3Hb5Eago1nm3jS0AvKVi/X7r313Rw2cOP9Q8WqfgkDfQMaECz/duNYkjiP/TjipmsbWNyN91rdOYT3JXKH3oIeMt3dIbvR9JDmtmlq4Piji183BQRfcgAGh7W2pSmWL3RucEiaDcz//RraO/7qvQh6VtDitaSKJAsDlsMKFlAAF4STXGyurDTOcdc/vGh/9ANELeFs463fS5K7xqmipQEVCsDE37s9rVqmBKmB+ZfL8wpmgtcnQFOKBWwtxbRPwBMyttOOs/+0XYoT2/dHsAOEm4quzHj/w7vkDRIxytdXprr092ZGbsLN75W7JOUtxMiz6uqfnHdPjfNEkC41G4beJIDSMyy0cjhD6l04URhn4Qvm/imBkZv8R/OUJnID/erPWMyNzZIsQ+5nmsMxVkzhhKfN9FM/Bcc3czAz3X1zH/QWO8a7PwE4w4vtIXACUnlFr93/A5PyCSyndl3KKtahSWhHgKppsTuEOvv3TchYSlI4/ubr1dXmUdQkhGJzyxh8fL6PUc4UjR1EJf1/fi2qe7yMzhkk+6XH/jnVzbOEnKriynaARMl88CjuNNvf5zFZrhFc26XNyaF1EiS26MKDTiUX5vQKIy3EcZX6e+JvqCwsUsj/Nzq3y+H1vXXG7Rr5CZmlZqMOhcnP2EfSgLkHgNA1pFUQYS2QxjMWs2wlTquCmx+2y3vhyPp3yrH0cQiJYbMNPVLEI6tcjRSQbr+nk3GyF7avqgc7keS2ViELQxIowtGqgqRiAQ6QN6xSyALIv3RfhwaJmh5f8rVSTePAdSkSKafc9vXV1NdjtYFtomIpgBdRF9OB2msyB6Te+ZkH5ckuhYLZa3B4TCngyEbwpoUFKhS+qiDWAu7e9gabbUJn/vQzE2n0wds3W82hPGEwZSC4XnycXBNoTHN2/XKQ8QKYyzMtkx/oImYuoUyAkbonOwKVscLe+YYxcB/D1gOnvPbMhuxnOvCA3sQm4Avrd2aO9tOSD5If7Jiaq35X7/HewC4vuUjB/xufbv7lAUxh2iadMFOV2XDDkfkOoxqWjP2AivBZSsZ8eYAFIVqU281qe2xrYHDz9UAhA7N4bFGKhLrHapV1AdjX6xi0WtE5XeGbNX3f/rI8h84mumoB+Lnb/neFUn+UQvSYNCceRe2h3ZLjR5PuLvhSXwrYNoHkwh06vNANai32zks5PMid2N5yfKy5GGyLP4BGH2hrO8OwCxlzT+H4g0RGijAenFMAGQzp0DA84vqB/ZMJ3znOesJWXfmf9fjSeXoxAvX9gdTRpZ1YooaoiR2EluCrythScIkcYPKWIOp+Ou0mvZHGNLNqd7FZ+6bgUx15GtOcQbF/5BsLsOuljoN97rflVr/N9RoBBEEzv166ZFjQ4EpIBaFvGA7z2b8ivwWO1OWVInpSLSBoSfQ0esP2JSIpmLm/8e+qFvcCE/PQ5idVunUIjYkIwok2bOh2kx4K0e30m87jTiHzIcjxIxHYZx//3DyNCNF/HbRnPgMGG/71m24x0YGJL4zUKSoOksKBk7oFSug7IWxiupLzI3wlBCs0zfO4mxHAUrlG+bmAjkNVzxMwQVFzC5EvX40O22ZU6afCeOiwDTD4BEtHRkqADJ+1JD5yb1xhe8YxfyScdAirUhuWBfkKVcfVeqOWPDexqkO5I5ba7NsORbsaDOx3AXdReXRobGmhtBS6qm8XHV9+4dXDYnMt57ZD7aowm1qJi6rTUGg7Ew93y+WYw0IsDVu/WjtOLVoZ0HPXL5jSauTX367nzCDw5AUUl1vWx+Jy1jK4VF8PHuKxqyRKxxlg/yruORJlX2+lYZckvf1pmwdl9NW03ud9oes/VsEBeHN6Qs1uXLYXP0UzXOXaoDSyxs6cUNYAer6k7s256tF+OuU73/Iiv3uUg0bS1fd0iW9g0M4QjZBUI/cw1pxISIMHec4ft/uwnJd4piwpxWH7mezjaQSipAJv3YFXJo/ddMtOkCWdkJav2jwfhvttEBKG0tTc06P0OU99cRj+9LgPFnTbUEqPcnAf6ykh4bhDTt/aCelk7idMvCTi0XitSQ+aRw4LueOulkBiYqmUX0qT9QJVkaMjApifp3v2uDarVs+hbuVP8V0MttEO50bn7Y2Zn3h+e7CDIOaMuiHGayDmTUBdTLfPqgtrSSa0n+0F4Ld/fsPoZ92Q2dRV3jxBdugatiAry7bt//Eqk3Dg49VuzYvZ5hWaplNACbjjNEImokOILRaHjZLsV7InsKad8ncIrvHKCyAj+V7SWWa5mBuJ2T0bFWxZnvnHTqag9OvQbMsWHFEKgjTIgkFw5o2YhDb5pAiIGxJ8SBuxKTiQFq8TjdKqNfzbBzN2kpmfU3jkO31WcOaF3q/vlUVTqtkdLfJqj09QKgeX5mzL+5D5+Bod4Yc/97UFUdHchnR6AWON/xbGWEEUhAsTEjKRMeqkMQNXk9eqmMOn4CaA2xEJek/h/9YOTzLzgGrH1KeEbbYvguwJZER1IoDQC+Q2Bbq8M2xSA7+uxEsF2dx06cquQ7qGFHkmOpyJl2l0H+p2a+dg1o0GonCFQUpNNzaQNuhW0VR3HSgKiPkjAeFzMfnXC+Q1DVbUM63mLh5DH1G6LSZBzJO+hGMikCIl0llElMP03GsuqSHgEmrCO5Ote7VDy8gRe5+rCf89mNb+TxK8WSKzaPejGEKYs904q24mxEcEhdLlkX3b37wsOXA7Tq474CzHOqPaWvPDH6Xallp+L/teaymV/7e6imTVcHYx8PLU5+MW2xMDUWcBUNwCHAJPW0GyEDF0kzca5+Tu/B7ZJE00SdmPCjU6z9Aokgd5lt2Dh7clWcJ/+KvHcTsO8RRdEnnlcnUm381QD+JnnQgTOxTdE3nEkPvdFDa4S8uSZJCU8h9Ak99pvMzZlDw62HcLv0XSTv4g9LtJihdbIOLZ6VqNU/VDswPiCLLDND8uh2M5gGUQJ4mx/CkWCCDay00+Ety11sDZqzkrMrF+V5EfjykikuyECo2RTRwlq8weP4nZsbzV/86gngj2xJw5pSx/nitV7/LV4Gg5nc+lHOnKKR+J5gU24hM0tBqbc9boZtksJkEpgWHmlxh1uzIHXvg9XS6Y3huBZP5g0gKlN4Q8jLGeH5zMyK6STVVh1cJ27Q9fmN9bky4Jwnb6FL4IqASfwfcPGKOYJALuowyVl+71WQIdRR/aHBzeGGVe9PIuUDNyFmqCUt/VIgQU8lji80ByX2+aFSQ3xgdaRUNtWl7rhYwoDNXbV+DfObERvMsUzdnqw7T37kBZ/Myd6sAjaM/XIvh+jtF6cgv+8yRLr0g5L4utHNL6jnHXY+fBUxIFd229UAD9L3df8x8pbWVjwfej9DKGnl0SGTw3XaHjBH8O2wZ4kcPjYUuLSR7xGCoZ86qtmLhDwe5GsGC0fjS059jpeAXEf99287NyL8mSWyT+WToZlki2GIXvwwQhX5spnq2X009xp1KD3LW8UO7/Wc8+9zRWQlNL9jVN3LH2leEkMy5WBanjE/CKi/sJ5rXiJc5ljkdsrX2OIp1A57q523jfTPRdsDgRaTF7EUZYc2TL21VubhKu8B0r4AOQfVSFRvnA8qIexMrnYPtzW+XSPcn1s88CsXa4ZzvE4O/cdX5ZIjtIjviJKjuq7gatuQRsNfguDxzUcrYTGccVUWswgufJWEWjvyKSJZFuMXiyznfXzh777Z+3OW//prF3Rued+tZGNmBwj7ANM6EXn9R2OAk7NM4ftWpWHGRUxO8QED7V909GrOX9Ngth5egBcSiIjC+6wiEVjiqk5IpF3YmXiewzpLqZg8rEZp/NiOZ00wuP1khLlmwmZyf76rLaOlgpSXJ2DwE7hwxonKgNHqB+jWjPcgnyFjDu/vceyWtMtzc8ItaK0PJzxCCAlUMEhvXgS0mXzmgknrju3kj/enjPF675g3JePc5F3+Ad8PiQOWindPdpktMOL9LybDTWX86j+bFFRw6cTNxkpXkGmvp+zZukWo6H0Qy9Xum12q7/SYqJejuy9vyKf2NDqXT6hAe6f4XIh1URilHWr9rBTiwwRQQUjSRlrHRaPlTOabGcXqbqZIbiTI2nSw53fRt3Au3ClGLOPNsBb5SpW0fDRcNJLdvF7QAJP1uVHV9BuXAimO/BO2zC6idT2Vmkf/M+ymYmYTpRpPT9Rg6B+9b+lQ5Uyfmvo+hUtFf2fhY1cIOrzhOKu8fDhoOHWXPKzPD0ePlk5l2Jf6I3ur8IM5RQAnV0ehZbLCta8DtKJadH2UEtm3pQ4fouxh9Jloo5gcAd28zUi/AaxV7MaQuGUx6PpTiK10meECn9DtJz/L2ou8xXihSL3UsyomVZJO+xkleMfY7aRgkn/QjqxY+BqG0I4DcgrSmAcyXVuN1LOvBta0ATL/wbVUzZYnpb8zvCX+PHwQGRVvkHD6zGIx8gMF1Qesiacztc7ITGlPyJFyvXCKP6rhuwUzsRSvzSE093adfzD3nZicwE3WVHRUp7WJbazQG+EiDfedYJbAAatSl3+MUGFKpcX8SdcoAQuisOqyzSws61SwWwsfoDgE9B+GN7NhtT8K72BXuwTDUhlRvm9hL7ZJadn1AU+YEosJjCUHD4q4K+dG8JZwp0TxxUMp4bUrdtH3KnXpq8U0Fz+LtpV1VJehOfnj1nAPBokXJfOlhIud5vSN92+HzQZB/y+cxgWo2uoTrJbyVeV2Fzmd0fWbieUu80Htl0wrI+apuqk1NrW66kFRVI0G2L/O/LFp1+DRnOIS/OluM5Zlgr/+npFHa5ZBZODER8AWpkHOdTsQzyYcsd75MvOzi1JZlaEmiS2aAAA7CQwKLZ70s4LfbjgAIgAAAAAAAAAAAAAA"></div>
+    <div class="head" style="margin:0"><h2>حمّل ATHEER</h2><p>ملف APK مباشر لأجهزة أندرويد 7.0 فأحدث. التثبيت في دقيقة.</p></div>
+    <a class="pill glass tint press" href="ATHEER.apk" download="ATHEER.apk"><svg class="i"><use href="#i-Download"/></svg>تنزيل ATHEER.apk</a>
+    <div class="steps">
+      <div class="card glass"><div class="num glass tint">1</div><b>نزّل الملف</b><span class="d">اضغط زر التنزيل واحفظ ATHEER.apk على هاتفك.</span></div>
+      <div class="card glass"><div class="num glass tint">2</div><b>اسمح بالتثبيت</b><span class="d">عند السؤال، فعّل «السماح بالتثبيت من هذا المصدر» للمتصفح.</span></div>
+      <div class="card glass"><div class="num glass tint">3</div><b>افتح وسجّل</b><span class="d">افتح التطبيق، أكّد رقمك، واختر اسمك ويوزر نيم.</span></div>
+    </div>
+    <p class="note">للحصول على أفضل أداء في الخلفية، امنح التطبيق «بدون قيود» من إعدادات البطارية.</p>
+    <div class="chips" style="margin-top:2px">
+      <span class="chip glass">Kotlin</span><span class="chip glass">Jetpack Compose</span><span class="chip glass">WebRTC</span><span class="chip glass">Supabase Realtime</span><span class="chip glass">Media3</span><span class="chip glass">Room</span>
+    </div>
+    <div class="team"><small>from</small><b>BINARY Beast</b></div>
+  </div></section>
+
+</main>
+
+<nav class="nav"><div class="cap glass" id="cap"></div></nav>
+
+<script>
+(function(){
+  // ---- styles: exactly the palettes/specs from Theme.kt (STYLES) ----
+  // [key,name,shadow,border,offset,radius,bubbleRadius, light[bg,surface,surfaceHi,text,dim,line,accent,onAccent,bubbleIn,bubbleOut,onBubbleOut], dark[...]]
+  var S=[
+   ["clay","طين ناعم","soft",0,0,26,22,["E9E5F3","E9E5F3","F4F1FB","2B2840","7A7595","D6D0E6","7C6CF0","FFFFFF","F4F1FB","7C6CF0","FFFFFF"],["1D1E2D","25273A","2E3047","ECEBFA","9A9DBD","34364F","8B7CFF","FFFFFF","2A2C42","7C6CF0","FFFFFF"]],
+   ["tg","كلاسيكي","flat",0,0,14,16,["FFFFFF","FFFFFF","F1F3F5","101418","707579","E3E7EA","2AABEE","FFFFFF","F1F3F5","D9F2FF","101418"],["0F1621","17212B","1F2C3A","F5F7FA","7F91A4","24313F","2AABEE","FFFFFF","182533","2B5278","FFFFFF"]],
+   ["pop","بوب","hard",2,4,14,14,["FFF3D1","FFFFFF","FFE7A8","111111","5A5340","111111","FF4F86","FFFFFF","FFFFFF","FF4F86","FFFFFF"],["17141F","241F31","2F2942","FFF3D1","B3A9C9","FFF3D1","FF6B9A","111111","241F31","FF6B9A","111111"]],
+   ["mono","مونو","flat",1,0,10,12,["FFFFFF","FFFFFF","F2F2F2","0B0B0B","6E6E6E","D0D0D0","0B0B0B","FFFFFF","F2F2F2","0B0B0B","FFFFFF"],["000000","0E0E0E","1A1A1A","F5F5F5","8C8C8C","2E2E2E","F5F5F5","000000","151515","F5F5F5","000000"]],
+   ["lux","فخم","soft",1,0,18,18,["F7F2E8","FFFDF8","EFE6D2","1B1710","7B6E55","E0D3B4","B8892B","FFFFFF","FFFDF8","B8892B","FFFFFF"],["0C0C10","16161D","1F1F28","F3ECDD","9C927C","34301F","D4AF5A","1B1710","1A1A22","D4AF5A","1B1710"]],
+   ["earth","ترابي","soft",0,0,20,20,["F3ECDD","FBF6EA","E8DDC6","2A2118","7D6E58","DCCFB4","B5593C","FFFFFF","FBF6EA","B5593C","FFFFFF"],["1F1A16","2A231D","352C24","F3E9D8","A89A83","40362C","D9825F","1F1A16","2A231D","D9825F","1F1A16"]],
+   ["retro","ريترو","hard",2,3,6,8,["FBEFD2","FFF8E6","F3DFAE","2B2118","7A6A4C","2B2118","1F8A8A","FFFFFF","FFF8E6","1F8A8A","FFFFFF"],["1B2430","253141","2F3E52","F8EBD0","A6B0BF","F8EBD0","F2A541","1B2430","253141","F2A541","1B2430"]]
+  ];
+  // ACCENTS from Theme.kt
+  var A=[["auto","لون النمط",null],["c_violet","بنفسجي","7C6CF0"],["c_blue","أزرق","2A7BEF"],["c_teal","تركواز","14B8A6"],["c_green","أخضر","22A06B"],["c_orange","برتقالي","F08A24"],["c_pink","وردي","EC4899"],["c_red","أحمر","E5484D"]];
+
+  var root=document.documentElement,si=0,ai=0,dark=true;
+  try{dark=!matchMedia('(prefers-color-scheme:light)').matches}catch(e){}
+  function rgba(h,a){var n=parseInt(h,16);return 'rgba('+(n>>16&255)+','+(n>>8&255)+','+(n&255)+','+a+')'}
+  function set(k,v){root.style.setProperty(k,v)}
+
+  function apply(){
+    var st=S[si],p=dark?st[8]:st[7],o=A[ai][2],ac=o||p[6],oc=o?'FFFFFF':p[7],kind=st[2],bw=st[3],off=st[4],r=st[5],ln='#'+p[5];
+    set('--bg','#'+p[0]);set('--sf','#'+p[1]);set('--hi','#'+p[2]);set('--tx','#'+p[3]);set('--dm','#'+p[4]);set('--ln',ln);
+    set('--ac','#'+ac);set('--oc','#'+oc);set('--bi','#'+p[8]);set('--bo',o?'#'+o:'#'+p[9]);set('--obo',o?'#FFFFFF':'#'+p[10]);
+    set('--fl',(kind==='flat'&&bw===0)?'#'+p[2]:'#'+p[1]);
+    set('--r',r+'px');set('--ibr',r>=18?'50%':r+'px');set('--br',st[6]+'px');set('--bw',bw+'px');set('--brs',Math.min(r*1.1,30)+'px');
+    set('--sh',kind==='soft'?(dark?'0 8px 18px rgba(0,0,0,.55),0 2px 4px rgba(0,0,0,.4)':'0 8px 18px rgba(90,78,140,.28),0 2px 4px rgba(90,78,140,.16)'):kind==='hard'?off+'px '+off+'px 0 '+ln:'none');
+    set('--hl',kind==='soft'?(dark?'rgba(255,255,255,.07)':'rgba(255,255,255,.55)'):'transparent');
+    set('--hl2',kind==='soft'&&bw===0?(dark?'rgba(255,255,255,.12)':'rgba(255,255,255,.8)'):'transparent');
+    set('--tb',kind==='hard'?ln:'transparent');
+    var img;
+    if(st[0]==='pop'||st[0]==='retro'){img='radial-gradient(circle,'+rgba(p[5],dark?.10:.08)+' 1.3px,transparent 1.7px) 12px 12px/24px 24px'}
+    else if(st[0]==='clay'||st[0]==='lux'||st[0]==='earth'){img='radial-gradient(90vw 90vw at 50% 0,'+rgba(ac,dark?.10:.12)+',transparent),radial-gradient(90vw 90vw at 100% 80%,'+rgba(ac,dark?.05:.07)+',transparent)'}
+    else img='linear-gradient(transparent,transparent)';
+    set('--bgimg',img);
+    root.style.colorScheme=dark?'dark':'light';
+    document.getElementById('themeIc').innerHTML='<use href="#i-'+(dark?'Sun':'Moon')+'"/>';
+    drawSw();drawAcc();
+  }
+
+  // ---- gallery ----
+  var sws=document.getElementById('sws'),acc=document.getElementById('acc');
+  function drawSw(){
+    sws.innerHTML='';
+    S.forEach(function(st,k){
+      var p=dark?st[8]:st[7],c=function(i){return '#'+p[i]},kind=st[2],bw=st[3],off=st[4];
+      var b=document.createElement('button');b.className='sw press'+(k===si?' on':'');b.setAttribute('aria-label',st[1]);
+      var sh=kind==='soft'?(dark?'0 8px 16px rgba(0,0,0,.55)':'0 8px 16px rgba(90,78,140,.28)'):kind==='hard'?off+'px '+off+'px 0 '+c(5):'none';
+      b.style.cssText='background:'+c(0)+';color:'+c(3)+';border:'+bw+'px solid '+c(5)+';border-radius:'+st[5]+'px;box-shadow:'+sh;
+      var bub=function(cls,bg,fg){return '<i class="mb '+cls+'" style="display:block;background:'+bg+';color:'+fg+';border-radius:'+st[6]*.7+'px;border:'+bw+'px solid '+c(5)+'"></i>'};
+      b.innerHTML='<b>'+st[1]+'</b>'+bub('i2',c(8),c(3))+bub('o',c(9),c(10))+'<span class="dot" style="background:'+c(6)+'"></span>';
+      b.onclick=function(){si=k;apply()};
+      sws.appendChild(b);
+    });
+  }
+  function drawAcc(){
+    acc.innerHTML='';
+    A.forEach(function(a,k){
+      var b=document.createElement('button');b.className='press'+(k===ai?' on':'');b.setAttribute('aria-label',a[1]);b.title=a[1];
+      var base=(dark?S[si][8]:S[si][7])[6];
+      b.style.background=a[2]?'#'+a[2]:'conic-gradient(#'+base+' 0 50%,var(--sf) 0 100%)';
+      b.onclick=function(){ai=k;apply()};
+      acc.appendChild(b);
+    });
+  }
+
+  // ---- chat wallpaper doodles (same icon set as ChatWallpaper) ----
+  (function(){
+    var ids=['Chat','Heart','Star','Smile','Music','Moon','Sun','Cloud','Bolt','Gift','Coffee','Send','Call','Mic','Public'],
+        W=300,H=470,cell=64,s=22,o='',row=0;
+    for(var y=0;y<H+cell;y+=cell*.9,row++){
+      for(var x=row%2?cell/2:0,col=0;x<W+cell;x+=cell,col++){
+        var k=(row*7+col*3)%ids.length,rot=((row*31+col*17)%60)-30,jx=((row*13+col*29)%20)-10,jy=((row*19+col*11)%20)-10;
+        o+='<g transform="translate('+(x+jx)+' '+(y+jy)+') rotate('+rot+' '+s/2+' '+s/2+')" opacity=".12"><svg class="i" width="'+s+'" height="'+s+'" viewBox="0 0 24 24"><use href="#i-'+ids[k]+'"/></svg></g>';
+      }
+    }
+    document.getElementById('wall').innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid slice">'+o+'</svg>';
+    var wv=document.getElementById('wv'),hs=[8,14,10,18,12,20,9,16,13,19,8,15,11,17,7,12];
+    wv.innerHTML=hs.map(function(h){return '<i style="height:'+h+'px"></i>'}).join('');
+  })();
+
+  // ---- navigation (FloatingNavBar) ----
+  var items=[["Chat","الرئيسية"],["Reply","الشات"],["Lock","الخصوصية"],["LockOpen","المساحة"],["Call","التواصل"],["Crop","الأدوات"],["Public","اللغات"],["Bolt","البوتات"],["Brush","التصميم"],["Download","تنزيل"]];
+  var slides=[].slice.call(document.querySelectorAll('.slide')),cap=document.getElementById('cap'),cur=0;
+  items.forEach(function(it,k){
+    var b=document.createElement('button');b.className='press';
+    b.innerHTML='<div class="ib"><svg class="i"><use href="#i-'+it[0]+'"/></svg></div><span>'+it[1]+'</span>';
+    b.onclick=function(){go(k)};cap.appendChild(b);
+  });
+  function go(n){
+    cur=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(e,k){e.classList.toggle('on',k===cur)});
+    [].forEach.call(cap.children,function(b,k){b.classList.toggle('on',k===cur)});
+    slides[cur].scrollTop=0;
+    var ab=cap.children[cur];if(ab&&ab.scrollIntoView)try{ab.scrollIntoView({inline:'center',block:'nearest'})}catch(e){}
+    try{history.replaceState(null,'','#'+(cur+1))}catch(e){}
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowLeft'||e.key==='PageDown')go(cur+1);
+    else if(e.key==='ArrowRight'||e.key==='PageUp')go(cur-1);
+  });
+  var x0=null,y0=null;
+  document.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(x0===null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
+    if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.6){dx<0?go(cur+1):go(cur-1)}
+  },{passive:true});
+  document.getElementById('theme').onclick=function(){dark=!dark;apply()};
+
+  apply();
+  var h=parseInt(location.hash.slice(1),10);go(h?h-1:0);
+})();
+</script>
+</body>
+</html>
